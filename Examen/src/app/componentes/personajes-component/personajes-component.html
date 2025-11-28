@@ -1,0 +1,99 @@
+<div class="container-fluid py-5 personajes-container">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="personajes-title text-center">Guerreros Dragon Ball</h1>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+
+    <!-- Personajes -->
+    <div *ngIf="!isLoading" class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let character of characters">
+            <div class="card personaje-card h-100">
+                <!-- Imagen del Personaje -->
+                <div class="personaje-image-container">
+                    <img [src]="character.image" [alt]="character.name" class="card-img-top personaje-image">
+                    <div class="personaje-overlay">
+                        <button class="btn btn-primary btn-sm" (click)="viewDetails(character.id)">
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cuerpo de la Tarjeta -->
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title personaje-name">{{ character.name }}</h5>
+
+                    <div class="personaje-info mb-3">
+                        <div class="info-item">
+                            <span class="info-label">Raza:</span>
+                            <span class="info-value">{{ character.race }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Género:</span>
+                            <span class="info-value">{{ character.gender }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Afiliación:</span>
+                            <span class="info-value">{{ character.affiliation }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Ki Information -->
+                    <div class="ki-info mb-3">
+                        <div class="ki-item">
+                            <span class="ki-label">Ki:</span>
+                            <span class="ki-value">{{ character.ki }}</span>
+                        </div>
+                        <div class="ki-item">
+                            <span class="ki-label">Max Ki:</span>
+                            <span class="ki-value">{{ character.maxKi }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <p class="card-text personaje-description">{{ character.description }}</p>
+
+                    <!-- Planeta de Origen -->
+                    <div class="origin-planet mb-3">
+                        <h6 class="origin-title">Planeta de Origen</h6>
+                        <div class="origin-info">
+                            <span class="origin-name">{{ character.originPlanet?.name || 'Desconocido' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Transformaciones -->
+                    <div class="transformations mt-auto" *ngIf="character.transformations && character.transformations.length > 0">
+                        <h6 class="transformations-title">Transformaciones</h6>
+                        <div class="transformations-list">
+                            <div class="transformation-badge" *ngFor="let transformation of character.transformations">
+                                <img [src]="transformation.image" [alt]="transformation.name" class="trans-img">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" (click)="viewDetails(character.id)">Ver Detalles</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginación -->
+    <div *ngIf="!isLoading" class="row mt-4">
+        <div class="col-12 d-flex justify-content-center gap-3">
+            <button class="btn btn-secondary" (click)="previousPage()" [disabled]="!previousUrl">
+                ← Página Anterior
+            </button>
+            <span class="align-self-center">Página {{ currentPage }} de {{ totalPages }}</span>
+            <button class="btn btn-secondary" (click)="nextPage()" [disabled]="!nextUrl">
+                Página Siguiente →
+            </button>
+        </div>
+    </div>
+</div>
